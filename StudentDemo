@@ -1,0 +1,44 @@
+public class StudentDemo {
+    public static void main(String[] args) {
+        // إنشاء المصفوفة والستاك
+        StudentArray arr = new StudentArray(30);
+        StackX undoStack = new StackX(10);
+        StackX redoStack = new StackX(10);
+
+        // إدخال بيانات 20 طالب (بيانات عشوائية للتجربة)
+        String[] names = {"Ahmed", "Sara", "Omar", "Laila", "Khaled", "Zain", "Mona", "Ali", "Hoda", "Yassin"};
+        for (int i = 0; i < 20; i++) {
+            int randomId = (int) (Math.random() * 900) + 100; // ID بين 100 و 999
+            double randomGrade = 60 + Math.random() * 40;     // درجة بين 60 و 100
+            arr.insert(names[i % 10] + (i + 1), randomId, randomGrade);
+        }
+
+        System.out.println("--- 1. Data Before Sorting ---");
+        arr.display();
+
+        // تنفيذ عملية الـ Sort
+        System.out.println("\n--- 2. Performing Bubble Sort ---");
+        undoStack.push(arr.copyArray()); // حفظ الحالة للـ Undo
+        redoStack.clear();               // مسح الـ Redo عند بدء عملية جديدة
+        
+        arr.bubbleSortById();
+        arr.display();
+        arr.printCounters();
+
+        // تجربة الـ UNDO
+        System.out.println("\n--- 3. Performing UNDO (Returning to Unsorted) ---");
+        if (!undoStack.isEmpty()) {
+            redoStack.push(arr.copyArray()); // حفظ الحالة الحالية للـ Redo
+            arr.restoreArray(undoStack.pop());
+        }
+        arr.display();
+
+        // تجربة الـ REDO
+        System.out.println("\n--- 4. Performing REDO (Back to Sorted) ---");
+        if (!redoStack.isEmpty()) {
+            undoStack.push(arr.copyArray()); // حفظ الحالة قبل العودة للأمام
+            arr.restoreArray(redoStack.pop());
+        }
+        arr.display();
+    }
+}
