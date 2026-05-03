@@ -1,0 +1,30 @@
+class StackX {
+    private int maxSize;
+    private Student[][] stackArray; // مصفوفة من مصفوفات الطلاب
+    private int top;
+
+    public StackX(int s) {
+        maxSize = s;
+        stackArray = new Student[maxSize][];
+        top = -1;
+    }
+
+    public void push(Student[] arr) {
+        if (top < maxSize - 1) {
+            stackArray[++top] = arr;
+        }
+    }
+
+    public Student[] pop() {
+        if (isEmpty()) return null;
+        return stackArray[top--];
+    }
+
+    public boolean isEmpty() {
+        return (top == -1);
+    }
+    
+    public void clear() {
+        top = -1;
+    }
+}
