@@ -1,0 +1,65 @@
+class StudentArray {
+    private Student[] a;
+    private int nElems;
+    private int comparisons;
+    private int swaps;
+
+    public StudentArray(int max) {
+        a = new Student[max];
+        nElems = 0;
+    }
+
+    public void insert(String name, int id, double grade) {
+        if (nElems < a.length) {
+            a[nElems++] = new Student(name, id, grade);
+        }
+    }
+
+    public void display() {
+        for (int j = 0; j < nElems; j++)
+            a[j].displayStudent();
+    }
+
+    // خوارزمية Bubble Sort مع العدادات
+    public void bubbleSortById() {
+        comparisons = 0;
+        swaps = 0;
+        for (int out = nElems - 1; out > 0; out--) { // التعديل لضمان فرز الكل
+            for (int in = 0; in < out; in++) {
+                comparisons++;
+                if (a[in].getId() > a[in + 1].getId()) {
+                    swap(in, in + 1);
+                }
+            }
+        }
+    }
+
+    private void swap(int one, int two) {
+        Student temp = a[one];
+        a[one] = a[two];
+        a[two] = temp;
+        swaps++;
+    }
+
+    public void printCounters() {
+        System.out.println(">>> Comparisons: " + comparisons + ", Swaps: " + swaps);
+    }
+
+    // أخذ نسخة من المصفوفة الحالية (Snapshot)
+    public Student[] copyArray() {
+        Student[] copy = new Student[nElems];
+        for (int i = 0; i < nElems; i++) {
+            copy[i] = a[i];
+        }
+        return copy;
+    }
+
+    // استعادة حالة قديمة للمصفوفة
+    public void restoreArray(Student[] arrCopy) {
+        if (arrCopy == null) return;
+        nElems = arrCopy.length;
+        for (int i = 0; i < nElems; i++) {
+            a[i] = arrCopy[i];
+        }
+    }
+}
