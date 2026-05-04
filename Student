@@ -13,6 +13,6 @@ class Student {
     public double getGrade() { return grade; }
 
     public void displayStudent() {
-        System.out.println(String.format("ID: %-5d | Name: %-12s | Grade: %.2f", id, name, grade));
+        System.out.println("ID: " + id + ", Name: " + name + ", Grade: " + grade);
     }
 }
